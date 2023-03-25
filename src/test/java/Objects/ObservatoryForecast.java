@@ -55,7 +55,7 @@ public class ObservatoryForecast extends utils {
     public ObservatoryForecast(AppiumDriver<MobileElement> driver) {
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-        wait = new WebDriverWait(driver, 30);
+//        wait = new WebDriverWait(driver, 30);
     }
 
     public void clickAgreeDisclaimer(){

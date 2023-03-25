@@ -1,6 +1,6 @@
 Feature: Verify HK Observatory mobile application returns 9-Day forecast
 
-  @Test
+#  @Test
   Scenario: To verify next day forecast is returned by HK Observatory app
     Given Application is up and running
     When NineDay Forecast option is selected

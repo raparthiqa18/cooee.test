@@ -1,76 +1,24 @@
 package Steps;
 
+import Objects.Obj_CooeeMobileAp;
 import Objects.ObservatoryForecast;
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.And;
-import tests.BaseClass;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import Utils.BaseClass;
 
 public class mobileappsteps extends BaseClass {
     private Scenario scenario;
-    private ObservatoryForecast objObservatoryForecast;
+    private Obj_CooeeMobileAp obj_cooeeMobileAp;
 
     @Before
-    public void before(Scenario scenario){
-        this.scenario=scenario;
-        objObservatoryForecast=new ObservatoryForecast(getDriver());
-    }
-
-    @Given("^Application is up and running$")
-    public void applicationIsUpAndRunning() {
-        try{
-            objObservatoryForecast.clickAgreeDisclaimer();
-            objObservatoryForecast.clickAgreeDisclaimer();
-            objObservatoryForecast.clickbackgroundAccess();
-            objObservatoryForecast.clickdeviceLocationAccess();
-            objObservatoryForecast.closeversioninfo();
-            scenario.write("App launched successfully ");
-        }catch(Exception e){
-            e.printStackTrace();
-            scenario.write("Exception Cause " + e.getCause() + "Exception Message " + e.getMessage());
-        }
-    }
-
-
-    @When("NineDay Forecast option is selected")
-    public void ninedayForecastOptionIsSelected() {
-        try{
-            objObservatoryForecast.clickmyObservatoryMenu();
-            objObservatoryForecast.scrollDown();
-            objObservatoryForecast.clickNineDayForecast("9-Day Forecast");
-        }catch(Exception e){
-            e.printStackTrace();
-            scenario.write("Exception Cause " + e.getCause() + "Exception Message " + e.getMessage());
-        }
-    }
-
-
-    @Then("Validate NineDay Forecast is displayed")
-    public void validateNineDayForecastIsDisplayed() {
-       try{
-           if (objObservatoryForecast.validateNineDayForecastisDisplayed()){
-               scenario.write("9-Day Forecast is displayed successfully");
-           }
-       }catch(Exception e){
-           e.printStackTrace();
-           scenario.write("Exception Cause " + e.getCause() + "Exception Message " + e.getMessage());
-       }
-
-    }
-
-    @And("Validate next day forecast is displayed")
-    public void validateNextDayForecastIsDisplayed() {
-       try{
-           scenario.write("Next Date \"" + objObservatoryForecast.validateNextDayForecast(1) + "\"Forecast is displayed successfully");
-       }catch(Exception e){
-           e.printStackTrace();
-           scenario.write("Exception Cause " + e.getCause() + "Exception Message " + e.getMessage());
-       }
-    }
+    public void before() {getDriver();}
 
     @After
     public void after(){
@@ -78,4 +26,31 @@ public class mobileappsteps extends BaseClass {
     }
 
 
+    @When("User login to the mobile app using the {string} and {string}")
+    public void userLoginToTheMobileAppUsingTheAnd(String strEmail, String strPassword) {
+        try {
+            Thread.sleep(8000);
+//            System.out.println(mobdriver.findElementsByXPath("//android.widget.TextView [@text=\"Login\"]").size());
+            mobdriver.findElementByXPath("//android.widget.TextView [@text=\"Login\"]").click();
+            Thread.sleep(3000);
+            System.out.println(mobdriver.findElementsByXPath("//android.widget.TextView [@text=\"Login with Email Address\"]").size());
+            mobdriver.findElementByXPath("//android.widget.TextView [@text=\"Login with Email Address\"]").click();
+            mobdriver.findElementByXPath("//android.widget.EditText [@text=\"Enter your email address\"]").sendKeys(strEmail);
+            mobdriver.findElementByXPath("//android.widget.EditText [@text=\"Enter your password\"]").sendKeys(strPassword);
+            mobdriver.findElementByXPath("//android.widget.Button [@text=\"Login\"]").click();
+            Thread.sleep(3000);
+            mobdriver.findElementByXPath("//android.widget.Button [@text=\"Noted!\"]").click();
+            if(mobdriver.findElementsByXPath("//android.widget.LinearLayout [@resource-id=\"com.cooee.dev:id/li_okpermission!\"]").size()>1){
+                mobdriver.findElementByXPath("//android.widget.LinearLayout [@resource-id=\"com.cooee.dev:id/li_okpermission!\"]").click();
+            }
+            mobdriver.findElementByXPath("//android.widget.FrameLayout[@content-desc=\"Settings\"]/android.widget.FrameLayout/android.widget.ImageView").click();
+            Thread.sleep(2000);
+            System.out.println("COOEE ID : " + mobdriver.findElementByXPath("//android.widget.TextView [@resource-id=\"com.cooee.dev:id/tvCooeeId\"]").getText());;
+            scenario.log("COOEE ID : " + mobdriver.findElementByXPath("//android.widget.TextView [@resource-id=\"com.cooee.dev:id/tvCooeeId\"]").getText());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

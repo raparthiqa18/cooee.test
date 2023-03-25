@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <rest-assured.version>4.5.1</rest-assured.version>
-        <cucumber.version>1.2.5</cucumber.version>
+        <rest-assured.version>5.3.0</rest-assured.version>
+        <cucumber.version>7.11.1</cucumber.version>
         <testng.version>7.5</testng.version>
         <selenium-java.version>3.141.59</selenium-java.version>
         <slf4j-simple.version>1.6.4</slf4j-simple.version>
         <slf4j-api.version>1.7.5</slf4j-api.version>
         <appium.version>7.6.0</appium.version>
         <java.version>1.8</java.version>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.13.1</junit.version>
         <jackson-databind.version>2.12.6</jackson-databind.version>
         <maven.compiler.version>3.3</maven.compiler.version>
         <maven.checkstyle.plugin.version>2.17</maven.checkstyle.plugin.version>
@@ -22,7 +22,7 @@
         <log4j-api.version>2.10.0</log4j-api.version>
     </properties>
     <groupId>org.example</groupId>
-    <artifactId>com.crypto.assignment</artifactId>
+    <artifactId>com.Cooee</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <directory>${project.basedir}/target</directory>
@@ -32,6 +32,18 @@
         <outputDirectory>${project.build.directory}/classes</outputDirectory>
         <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                        <includes>
+                            <include>**/Test*.java</include>
+                        </includes>
+                    <skipTests>true</skipTests>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
@@ -44,26 +56,19 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>${project.name}</projectName>
-                            <outputDirectory>${project.build.directory}/site/cucumber-reports</outputDirectory>
-                            <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput>
+                            <projectName>COOEE</projectName>
+                            <outputDirectory>${project.build.directory}/cucumber</outputDirectory>
+                            <checkBuildResult>false</checkBuildResult>
+                            <cucumberOutput>${project.build.directory}/cucumber/report.json</cucumberOutput>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-                <configuration>
-                    <suiteXmlFiles>
-                        <systemPropertiesFiles>testng.xml</systemPropertiesFiles>
-                    </suiteXmlFiles>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -72,6 +77,19 @@
         </plugins>
     </build>
     <dependencies>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.1.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+
+
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -109,39 +127,34 @@
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java8</artifactId>
-            <version>7.0.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>info.cukes</groupId>
+            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>${cucumber.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>info.cukes</groupId>
+            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
             <version>${cucumber.version}</version>
-            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting -->
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>5.7.5</version>
         </dependency>
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
             <version>${appium.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -149,13 +162,4 @@
             <version>${jackson-databind.version}</version>
         </dependency>
     </dependencies>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.21.0</version>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>

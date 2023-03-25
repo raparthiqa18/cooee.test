@@ -6,31 +6,39 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.RequestSpecification;
+import org.bouncycastle.cert.ocsp.Req;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
 public class RestassuredExtensions {
     public static RequestSpecification Request;
+    public static ResponseOptions Response;
 
     //Creates a new request specification
-    public static RequestSpecification getRequest() {
+    public RestassuredExtensions() {
         RequestSpecBuilder requestSpecBuilder=new RequestSpecBuilder();
-        requestSpecBuilder.setBaseUri("https://data.weather.gov.hk");
+        requestSpecBuilder.setBaseUri("https://dollarsimclub.com");
+        requestSpecBuilder.setPort(8443);
         requestSpecBuilder.setContentType(ContentType.JSON);
-        RequestSpecification requestSpec=requestSpecBuilder.build();
-        Request = RestAssured.given().spec(requestSpec);
-        return Request;
+        Request=requestSpecBuilder.build();
+    }
+
+    //To perform GET operation using the URL
+    public static void GetOps(String url) throws URISyntaxException {
+        Response = RestAssured.given(Request).get(url);
     }
 
     //To perform GET operation using the URL & Queryparameters
-    public static ResponseOptions<Response> GetOps(String url, Map<String, String> queryParam){
-        getRequest().queryParams(queryParam);
-        try {
-            return Request.get(new URI(url));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static void GetOps(String url, Map<String, String> queryParam){
+        Request.queryParams(queryParam);
+        Response = RestAssured.given(Request).get(url);
+    }
+
+    //To perform POST operation
+    public static void PostOps(String url, Map<String, String> body) throws URISyntaxException {
+        Request.body(body);
+        Response = RestAssured.given(Request).post(url);
     }
 }

@@ -1,24 +1,16 @@
 package tests;
 
 import Objects.ObservatoryForecast;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.interactions.Actions;
-import org.testng.Assert;
+import Utils.BaseClass;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
-public class TestClass extends BaseClass{
+public class TestClass extends BaseClass {
     ObservatoryForecast objObservatoryForecast;
     String forecastdate;
 
     @Test
     public void taskATest() throws InterruptedException {
-        objObservatoryForecast=new ObservatoryForecast(driver);
+        objObservatoryForecast=new ObservatoryForecast(getDriver());
         objObservatoryForecast.clickAgreeDisclaimer();
         objObservatoryForecast.clickAgreeDisclaimer();
         objObservatoryForecast.clickbackgroundAccess();
