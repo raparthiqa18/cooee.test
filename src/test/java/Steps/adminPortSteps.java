@@ -1,8 +1,9 @@
 package Steps;
 
 
-import Utils.BaseClass;
-import Utils.WebUtils;
+import Pages.UserDashboardPage;
+import Pages.LoginPage;
+import Utils.utils;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -15,26 +16,30 @@ import org.testng.asserts.SoftAssert;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-public class adminPortSteps extends BaseClass {
-    WebUtils utils;
+public class adminPortSteps extends utils {
+    LoginPage loginPage;
+    UserDashboardPage userDashboardPage;
     SoftAssert softAssert=null;
     public WebDriver driver;
+    private Scenario scenario;
+
     @Before
     public void setup(Scenario scenario){
         this.scenario=scenario;
-        utils=new WebUtils(driver);
-        utils.launchBrowser("Chrome");
+        driver = launchBrowser("Chrome", driver);
+        loginPage=new LoginPage(driver);
+        userDashboardPage = new UserDashboardPage(driver);
         softAssert=new SoftAssert();
+        readProperties();
     }
 
     @When("login to the admin portal$")
-    public void portaluserLoginToTheAdminPortal() throws InterruptedException {
-        readProperties();
+    public void portaluserLoginToTheAdminPortal() {
         try{
-            utils.enterUserName(properties.getProperty("username"));
-            utils.enterPassword(properties.getProperty("password"));
-            utils.clickLogin();
-            String loggedinUserName = utils.getLoggedinUserName();
+            loginPage.enterUserName(properties.getProperty("username"));
+            loginPage.enterPassword(properties.getProperty("password"));
+            loginPage.clickLogin();
+            String loggedinUserName = userDashboardPage.getLoggedinUserName();
             softAssert.assertEquals(loggedinUserName, "Cooee Admin");
             scenario.log("Logged in successfully using \"" + loggedinUserName + "\"");
         }catch (Exception e){
@@ -51,8 +56,8 @@ public class adminPortSteps extends BaseClass {
     @Given("^I have open the admin portal$")
     public void iHaveOpenTheAdminPortal() {
         try{
-            utils.driver.get("https://dollarsimclub.com/cooeeadmin/");
-            softAssert.assertTrue(1==1);
+            driver.get("https://dollarsimclub.com/cooeeadmin/");
+            softAssert.assertTrue(loginPage.isLoginPageDisplayed());
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -62,17 +67,15 @@ public class adminPortSteps extends BaseClass {
     @Then("^Capture the \"([^\"]*)\" user's number of subscriptions$")
     public void captureTheUserSNumberOfSubscriptions(String strEmail) {
        try{
-           Thread.sleep(10000);
-           utils.driver.findElement(By.xpath("/html/body/app-root/app-full-layout/div/app-sidebar/div/div[2]/ul/li[3]/a/span")).click();
-           utils.driver.findElement(By.xpath("//*[@id=\"mat-input-2\"]")).sendKeys(strEmail);
-           System.out.println(utils.driver.findElements(By.xpath("/html/body/app-root/app-full-layout/div/div/div/div/app-user-management/div[2]/div/table/tbody/tr")).size());
-           if (utils.driver.findElements(By.xpath("/html/body/app-root/app-full-layout/div/div/div/div/app-user-management/div[2]/div/table/tbody/tr")).size()==0){
-               System.out.println("User not found in admin portal");
-               scenario.log(strEmail +" User not found in admin portal");
+           userDashboardPage.searchEmail.click();
+           userDashboardPage.searchEmailID.sendKeys(strEmail);
+           softAssert.assertTrue(userDashboardPage.userSearchResults());
+           if(userDashboardPage.userSearchResults()){
+                System.out.println("User found in the admin portal");
+                scenario.log(strEmail +" User found in the admin portal");
            }else{
-               System.out.println("User found in the admin portal");
-               scenario.log(strEmail +" User found in the admin portal");
-               scenario.isFailed();
+                System.out.println("User not found in admin portal");
+                scenario.log(strEmail +" User not found in admin portal");
            }
        }catch (Exception e){
            e.printStackTrace();
@@ -81,7 +84,7 @@ public class adminPortSteps extends BaseClass {
 
     @After
     public void cleanup(){
-        utils.releaseResources();
+        loginPage.releaseResources();
         softAssert.assertAll();
     }
 

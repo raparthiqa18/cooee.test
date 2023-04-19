@@ -7,13 +7,11 @@ Feature: Verify user dashboard
     Then Capture the "<email>" user's number of subscriptions
     When I login to the application "/cooee/user/login" using "<email>" and "<password>"
     Then I should be able to see the  history of plans subscribed
-    And Plans should match as displayed in admin portal
     When User login to the mobile app using the "<email>" and "<password>"
-
+    And Plans should match as displayed in admin portal
 
     Examples:
-      | email                     | password |
-      | surbhi.joshi@advantal.net | Test@123 |
-
-
+      | email                        | password |
+      | ayush.bhatnagar@advantal.net | Test@123 |
+#      | surbhi.joshi@advantal.net    | Test@123 |
 

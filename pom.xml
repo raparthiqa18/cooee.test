@@ -47,7 +47,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>3.0.0</version>
+                <version>4.2.3</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -59,7 +59,14 @@
                             <projectName>COOEE</projectName>
                             <outputDirectory>${project.build.directory}/cucumber</outputDirectory>
                             <checkBuildResult>false</checkBuildResult>
-                            <cucumberOutput>${project.build.directory}/cucumber/report.json</cucumberOutput>
+<!--                            <cucumberOutput>${project.build.directory}/cucumber/report.json</cucumberOutput>-->
+                            <jsonFiles>
+                            <!-- supports wildcard or name pattern -->
+                            <param>**/*.json</param>
+                            </jsonFiles>
+                            <mergeFeaturesById>false</mergeFeaturesById>
+<!--                            <mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>-->
+                            <checkBuildResult>false</checkBuildResult>
                         </configuration>
                     </execution>
                 </executions>
@@ -161,5 +168,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.rest-assured/json-path -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>

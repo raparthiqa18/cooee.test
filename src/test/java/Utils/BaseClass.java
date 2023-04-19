@@ -9,13 +9,20 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.cucumber.java.Scenario;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
@@ -34,28 +41,17 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
-public class BaseClass extends utils{
-    protected AppiumDriver<MobileElement> mobdriver;
-    private String platformName="Android";
-    protected String userEmail="";
-    protected String userPassword="";
-    protected static ResponseOptions<Response> response;
-    protected Scenario scenario;
-    protected Properties properties;
+public class BaseClass{
+    public static AppiumDriver<MobileElement> mobdriver;
+    public static String platformName="Android";
+    public static String userEmail="";
+    public static String userPassword="";
+    public static ResponseOptions<Response> response;
+    public Scenario scenario;
 
-    public Properties readProperties(){
-        FileReader reader= null;
-        try {
-            reader = new FileReader(System.getProperty("user.dir") + "/Cooee.properties");
-            properties=new Properties();
-            properties.load(reader);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return properties;
-    }
+    public static WebDriverWait wait;
 
-    public AppiumDriver<MobileElement> getDriver(){
+    public static AppiumDriver<MobileElement> getDriver(){
         try{
             DesiredCapabilities capabilities = new DesiredCapabilities();
             switch (platformName){
@@ -99,4 +95,6 @@ public class BaseClass extends utils{
                 "new UiScrollable(" + "new UiSelector().scrollable(true)).scrollIntoView("
                         + "new UiSelector().resourceIdMatches(\"" + id + "\"));"));
     }
+
+
 }

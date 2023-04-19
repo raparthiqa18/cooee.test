@@ -8,6 +8,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import Utils.BaseClass;
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+import org.testng.asserts.SoftAssert;
 
 import java.util.HashMap;
 
@@ -15,10 +17,14 @@ import static Utils.RestassuredExtensions.Response;
 
 public class apiSteps extends BaseClass {
     public RestassuredExtensions restassuredExtensions;
+    SoftAssert softAssert=null;
+    JsonPath jsonPathEvaluator;
+
     @Before
     public void before(Scenario scenario){
         this.scenario=scenario;
         restassuredExtensions = new RestassuredExtensions();
+        softAssert = new SoftAssert();
         //objObservatoryForecast=new ObservatoryForecast(getDriver());
     }
 
@@ -30,6 +36,10 @@ public class apiSteps extends BaseClass {
     public void iShouldBeAbleToSeeTheHistoryOfPlansSubscribed() {
         System.out.println(Response.statusCode());
         scenario.log(String.valueOf(Response.statusCode()));
+        softAssert.assertTrue(Response.statusCode() == 400);
+        jsonPathEvaluator = Response.body().jsonPath();
+        System.out.println(jsonPathEvaluator.get("data.user.lastname").toString());
+        scenario.log("Last Name: " + jsonPathEvaluator.get("data.user.lastname").toString());
 
     }
 
