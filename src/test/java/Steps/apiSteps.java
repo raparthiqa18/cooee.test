@@ -38,8 +38,8 @@ public class apiSteps extends BaseClass {
         scenario.log(String.valueOf(Response.statusCode()));
         softAssert.assertTrue(Response.statusCode() == 400);
         jsonPathEvaluator = Response.body().jsonPath();
-        System.out.println(jsonPathEvaluator.get("data.user.lastname").toString());
-        scenario.log("Last Name: " + jsonPathEvaluator.get("data.user.lastname").toString());
+        System.out.println(jsonPathEvaluator.get("data.user.lastName").toString());
+        scenario.log("Last Name: " + jsonPathEvaluator.get("data.user.lastName").toString());
 
     }
 

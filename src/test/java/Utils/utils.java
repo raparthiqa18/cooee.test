@@ -72,7 +72,7 @@ public class utils {
         return false;
     }
 
-    public static void releaseResources() {
+    public static void releaseResources(WebDriver driver) {
         System.out.println("Releasing resources now.....");
         if (null != driver) {
             driver.close();

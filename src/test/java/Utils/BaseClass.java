@@ -62,7 +62,7 @@ public class BaseClass{
                     capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
                     capabilities.setCapability("appPackage","com.cooee.dev" );
                     capabilities.setCapability("appActivity", "com.cooee.dev.signin_signup.SplashActivity");
-                    capabilities.setCapability("autoGrantPermissions", "true");
+                    capabilities.setCapability("autoGrantPermissions", true);
                 case "iOS"  :
                     capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "");
                     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "");

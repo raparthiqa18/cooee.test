@@ -3,10 +3,12 @@ package Pages;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 public class mobileAppLoginScreen {
     public static AppiumDriver<MobileElement> mobdriver;
@@ -58,8 +60,8 @@ public class mobileAppLoginScreen {
 
     public mobileAppLoginScreen(AppiumDriver<MobileElement> mobdriver) {
         this.mobdriver = mobdriver;
-//        AjaxElementLocatorFactory factory = new AjaxElementLocatorFactory(driver, 10);
-        PageFactory.initElements(mobdriver, this);
+//        AjaxElementLocatorFactory factory = new AjaxElementLocatorFactory(mobdriver, 10);
+        PageFactory.initElements(new AppiumFieldDecorator(mobdriver), this);
     }
 
     public void clickLoginBtn(){

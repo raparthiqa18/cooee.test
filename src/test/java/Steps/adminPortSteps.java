@@ -84,7 +84,7 @@ public class adminPortSteps extends utils {
 
     @After
     public void cleanup(){
-        loginPage.releaseResources();
+        utils.releaseResources(driver);
         softAssert.assertAll();
     }
 

@@ -23,8 +23,8 @@ public class mobileappsteps extends BaseClass {
     public void before() {
         this.scenario=scenario;
         softAssert=new SoftAssert();
-        mobdriver = getDriver();
-
+//        this.mobdriver = super.getDriver();
+//        mobileAppLoginScreen = new mobileAppLoginScreen(mobdriver);
     }
 
     @After
@@ -36,7 +36,8 @@ public class mobileappsteps extends BaseClass {
     @When("User login to the mobile app using the {string} and {string}")
     public void userLoginToTheMobileAppUsingTheAnd(String strEmail, String strPassword) {
         try {
-            Thread.sleep(8000);
+            mobdriver = super.getDriver();
+            mobileAppLoginScreen = new mobileAppLoginScreen(mobdriver);
             mobileAppLoginScreen.clickLoginBtn();
             Thread.sleep(3000);
             mobileAppLoginScreen.clickloginWithEmailBtn();
@@ -74,6 +75,9 @@ public class mobileappsteps extends BaseClass {
 
         } catch (Exception e) {
             e.printStackTrace();
+            scenario.log("Failed " + e.getMessage());
+        } finally {
+            teardown();
         }
 
     }
